@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>The Backstage</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="navbar">
+        <a href="index.html"><img src="images/navbstg.png" alt="The Backstage"></a>
+        <img src="images/rec.png" alt="Separator" style="height: 20px; margin: 15px 0;">
+        <a href="bts.html"><img src="images/navabout.png" alt="About"></a>
+    </div>
+	<div class="container">
+		<div class="slides slide1">
+			<img src="images/BTS.png" class="landingtext" draggable="false">
+			<button type="button" class="button" onclick="showSlide('slide21')"><img src="images/explore.png" class="explorebutton" draggable="false"></button>
+		</div>
+		<div class="slides slide21">
+			<img src="images/aboutpic.png" class="abouttext1" >
+			<img src="images/abouttextpic.png" class="abouttext" >
+		</div>
+		<div class="slides slide31">
+			<img src="images/ideapitch.png" class="ideapitchpic" >
+			<img src="images/ideapitchtext.png" class="abouttext2" >
+		</div>
+		<div class="slides slide31">
+			<img src="images/system.png" class="system" >
+			<img src="images/systempic.png" class="systempict" >
+		</div>
+		<div class="slides slides71">
+			<img src="images/behind.png">
+			<iframe width="800" height="450" src="https://www.youtube.com/embed/Ieyf_FQN1FQ" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<div class="slides slides7">
+			<img src="images/FooterText.png" class="footertext" draggable="false">
+			<button type="button" class="button" onclick="showSlide('slide1')">
+				<img src="images/StartOver.png" class="footerbutton" draggable="false">
+			</button>
+			<button type="button" class="button" onclick="showSlide('slide1')">
+				<a href="index.html"><img src="images/GoTo.png" class="footerbutton" draggable="false"></a>
+			</button>
+		</div>
+		<div class="video-overlay" id="videoOverlay">
+			<div class="video-container">
+				<video controls autoplay onended="closeVideo()">
+					<!-- Add your video source here -->
+					Your browser does not support the video tag.
+				</video>
+			</div>
+		</div>
+
+	</div>
+	<script>
+
+    var watchedVideos = {
+        video1: false,
+        video2: false,
+        video3: false,
+        video4: false, // Assuming video4 is on slide5
+    };
+
+    function showSlide(slideId) {
+        var selectedSlide = document.querySelector('.slides.' + slideId);
+        selectedSlide.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function playVideo(videoId, button) {
+    var videoOverlay = document.getElementById('videoOverlay');
+    videoOverlay.style.display = 'flex';
+
+    if (button.getAttribute('data-clicked') === 'true') {
+        return;
+    }
+
+    var videoSource;
+    var greyImagePath;
+
+    switch (videoId) {
+        case 'video1':
+            videoSource = "images/Vid1.mp4";
+            greyImagePath = watchedVideos.video4 ? "images/Video1Grey.png" : "images/Video1Grey.png";
+            break;
+        case 'video2':
+            videoSource = "images/Vid2.mp4";
+            greyImagePath = watchedVideos.video4 ? "images/Video2Grey.png" : "images/Video2Grey.png";
+            break;
+        case 'video3':
+            videoSource = "images/Vid3.mp4";
+            greyImagePath = watchedVideos.video4 ? "images/Video3Grey.png" : "images/Video3Grey.png";
+            break;
+        case 'video4':
+            videoSource = "images/Vid1bck.mp4";
+            greyImagePath = "images/Video1Grey.png";
+            break;
+        case 'video5':
+            videoSource = "images/Vid2bck.mp4";
+            greyImagePath = "images/Video2Grey.png";
+            break;
+        case 'video6':
+            videoSource = "images/Vid3bck.mp4";
+            greyImagePath = "images/Video3Grey.png";
+            break;
+        default:
+            videoSource = "";
+            greyImagePath = "";
+            break;
+    }
+
+    console.log("Video Source:", videoSource);
+    console.log("Grey Image Path:", greyImagePath);
+
+    var newButton = document.createElement('button');
+    newButton.type = 'button';
+    newButton.className = 'button';
+    newButton.disabled = true;
+    newButton.setAttribute('data-clicked', 'true');
+
+    var newImage = document.createElement('img');
+    newImage.src = greyImagePath;
+
+    newButton.appendChild(newImage);
+
+    button.parentNode.replaceChild(newButton, button);
+
+    // Set the video source dynamically
+    var video = document.querySelector('.video-container video');
+    video.src = videoSource;
+
+    watchedVideos[videoId] = true;
+
+    if (watchedVideos.video1 && watchedVideos.video2 && watchedVideos.video3 && watchedVideos.video4) {
+        showNextSlideButton();
+        // Dynamically insert slide 4 and slide 5 content
+        insertSlide4Content();
+        insertSlide5Content();
+    }
+}
+
+    function showNextSlideButton() {
+        var nextSlideButton = document.getElementById('nextSlideButton');
+        nextSlideButton.style.display = 'block';
+    }
+
+    function insertSlide4Content() {
+    // Check if slide 4 content is already inserted
+    if (!document.getElementById('slide4Content')) {
+        var slide4Content = document.createElement('div');
+        slide4Content.className = 'slides slides4';
+        slide4Content.id = 'slide4Content';
+
+        // Add your slide 4 content here
+        var questionText = document.createElement('img');
+        questionText.src = "images/Q1.png";
+        questionText.className = 'questiontext';
+
+        var form = document.createElement('form');
+        var textarea = document.createElement('textarea');
+        textarea.type = 'text';
+        textarea.className = 'input-field';
+        textarea.placeholder = 'Your opinion';
+
+        var lineBreak = document.createElement('br'); // Add line break here
+
+        var submitButton = document.createElement('button');
+        submitButton.type = 'button';
+        submitButton.className = 'btn';
+        submitButton.textContent = 'Submit';
+
+        // Add an event listener to the submit button
+        submitButton.addEventListener('click', function () {
+            // Call the saveAnswer function when the button is clicked
+            saveAnswer();
+
+            // Scroll down to slide 5
+            showSlide('slide5');
+        });
+
+        form.appendChild(textarea);
+        form.appendChild(lineBreak); // Insert line break
+        form.appendChild(submitButton);
+
+        slide4Content.appendChild(questionText);
+        slide4Content.appendChild(form);
+
+        // Insert slide 4 content after slide 3
+        var container = document.querySelector('.container');
+        container.appendChild(slide4Content);
+    }
+}
+
+    function insertSlide5Content() {
+        // Check if slide 5 content is already inserted
+        if (!document.getElementById('slide5Content')) {
+            var slide5Content = document.createElement('div');
+            slide5Content.className = 'slides slides5';
+            slide5Content.id = 'slide5Content';
+
+            // Add your slide 5 content here
+            // Similar structure as slide 3 content
+            var watchText = document.createElement('img');
+            watchText.src = "images/WatchVideoText2.png";
+            watchText.className = 'watchtext';
+
+            var videoButton1 = createVideoButton('video4', 'Video4Bstg');
+            var videoButton2 = createVideoButton('video5', 'Video5Bstg');
+            var videoButton3 = createVideoButton('video6', 'Video6Bstg');
+
+            slide5Content.appendChild(watchText);
+            slide5Content.appendChild(videoButton1);
+            slide5Content.appendChild(videoButton2);
+            slide5Content.appendChild(videoButton3);
+
+            // Insert slide 5 content after slide 4
+            var container = document.querySelector('.container');
+            container.appendChild(slide5Content);
+        }
+    }
+
+    function createVideoButton(videoId, buttonId) {
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'button';
+        button.onclick = function () {
+            playVideo(videoId, button);
+        };
+
+        var image = document.createElement('img');
+        image.src = "images/" + buttonId + ".png"; // Adjust the path accordingly
+
+        button.appendChild(image);
+
+        return button;
+    }
+
+    function closeVideo() {
+        var videoOverlay = document.getElementById('videoOverlay');
+        videoOverlay.style.display = 'none';
+    }
+</script>
+</body>
+</html>
